@@ -1,0 +1,24 @@
+---
+id: 201711-intro-to-kafka
+base_name: 201711-intro-to-kafka
+tags:
+- rabbit
+- microservices
+- asynchronous communication
+- kafka
+presentation_date: 2017-11-30
+version: 2017.11.24.1
+licenses:
+- MIT
+slideshare_id:
+speaker_deck_id: 
+ustream_id: 
+vimeo_id: 
+youtube_id: 
+author:
+  markup_language: :rd
+  name: Giovanni Sakti
+  email: giosakti@gmail.com
+  rubygems_user: giosakti
+  slideshare_user:
+  speaker_deck_user: giosakti 

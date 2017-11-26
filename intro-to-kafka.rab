@@ -1,0 +1,380 @@
+= Introduction to Apache Kafka
+
+% : subtitle
+%    Part 2
+: author
+   Giovanni Sakti
+: institution
+   Starqle
+% : content-source
+%    id_ruby
+% : date
+%    2017-11-01
+: theme
+   starqle
+
+= Apache Kafka
+
+(('tag:center'))Apache Kafka
+
+== properties
+  : hide-title
+    true
+
+= Apache Kafka
+
+(('tag:center'))What is Apache Kafka?
+
+== properties
+  : hide-title
+    true
+
+= Apache Kafka
+
+(('tag:center'))Distributed streaming platform
+# Distributed means kafka can have multiple instance running in parallel
+# Streaming means kafka handle streams of records
+
+= Apache Kafka
+
+(('tag:center'))It lets you ((*publish and subscribe*)) to streams of records.\n\n
+(('sub:Kafka as messaging system'))
+
+= Apache Kafka
+
+(('tag:center'))It lets you ((*store*)) streams of records in a ((*fault-tolerant*)) way.\n\n
+(('sub:Kafka as storage system'))
+
+= Apache Kafka
+
+(('tag:center'))It lets you ((*process*)) streams of records ((*as they occur*)).\n\n
+(('sub:Kafka stream processing'))
+
+= Apache Kafka
+
+* It lets you ((*publish and subscribe*)) to streams of records
+* It lets you ((*store*)) streams of records in a ((*fault-tolerant*)) way
+* It lets you ((*process*)) streams of records ((*as they occur*))
+
+= Kafka Key Concepts
+
+(('tag:center'))Kafka Key Concepts
+
+== properties
+  : hide-title
+    true
+
+= Kafka Key Concepts
+
+(('tag:center'))Kafka is run as a ((*cluster*)) on one or more servers.
+
+= Kafka Key Concepts
+
+(('tag:center'))The kafka cluster stores streams of records in categories called ((*topics*)).
+
+= Kafka Key Concepts
+
+(('tag:center'))Each record consists of a ((*key*)), a ((*value*)) and a ((*timestamp*)).
+
+= Kafka Key Concepts
+
+(('tag:center'))The ((*producers*)) write the records, while the ((*consumers*)) read them.
+
+= Kafka Key Concepts
+
+* Kafka is run as a ((*cluster*)) on one or more servers
+* The kafka cluster stores streams of records in categories called ((*topics*))
+* Each record consists of a ((*key*)), a ((*value*)) and a ((*timestamp*))
+* The ((*producers*)) write the records, while the ((*consumers*)) read them
+
+= Topics
+
+(('tag:center'))Topics
+
+== properties
+  : hide-title
+    true
+
+= Topics
+
+(('tag:center'))A topic is a category or ((*stream*)) name to which records are published
+
+= Topics
+
+(('tag:center'))Similar to a ((*table*)) in a database\n
+(('sub:without all the constraints'))
+
+= Topics
+
+Characteristics:
+
+* A topic is identified by its ((*name*))
+* You can have ((*as many*)) topics as you want
+* Each topics can have ((*multiple subscriber*))
+# Multi-subscriber: a topic can have zero, one, or many consumers that subscribe to the data written to it
+
+= Partitions
+
+(('tag:center'))Partitions
+
+== properties
+  : hide-title
+    true
+
+= Partitions
+
+(('tag:center'))For each topic, the Kafka cluster maintains one or more ((*partition(s)*)).
+
+= Partitions
+
+(('tag:center'))Each partition is an ((*ordered*)), ((*immutable*)) sequence of records.\n\n
+(('tag:center'))That is continually ((*appended*)) to.
+# Immutable means: once the record is written to a partition, it can't be changed, it can only be appended.
+
+= Partitions
+
+  # image
+  # src = images/partition_anatomy.png
+  # keep_ratio = true
+  # width = 640
+
+= Partitions
+
+(('tag:center'))You can have ((*as many*)) partitions per topic as yout want.
+
+= Partitions
+
+(('tag:center'))The records in the partitions are each assigned a sequential id number called ((*offset*)).
+
+= Partitions
+
+(('tag:center'))Offset ((*uniquely*)) identifies each record ((*within that*)) partition.
+
+= Partitions
+
+(('tag:center'))Order within a partition is ((*guaranteed*)).
+
+= Partitions
+
+Why partitions?
+
+* Allow the log to ((*scale*)) beyond a single server
+* As unit of ((*parallelism*))
+
+= Distribution
+
+(('tag:center'))Distribution
+
+== properties
+  : hide-title
+    true
+
+= Distribution
+
+(('tag:center'))A Kafka cluster is composed of multiple ((*brokers*)) (servers)
+
+= Distribution
+
+(('tag:center'))Each broker is identified with its ((*ID*))
+
+= Distribution
+
+(('tag:center'))After connecting to any broker, you will be connected to the ((*entire cluster*)).
+
+= Distribution
+
+(('tag:center'))The partitions are ((*distributed*)) over the brokers in the Kafka cluster.
+
+= Distribution
+
+(('tag:center'))Each partition is ((*replicated*)) across a configurable number of brokers for fault tolerance.
+
+= Distribution
+
+(('tag:center'))Each partition has ((*exactly one*)) broker which acts as the ((*leader*))
+
+= Distribution
+
+(('tag:center'))..and ((*zero or more*)) brokers which act as ((*followers*)).
+
+= Distribution
+
+(('tag:center'))The leader ((*handles all*)) read and write requests for the partition while the followers passively ((*replicate*)) the leader.
+
+= Distribution
+
+(('tag:center'))If the leader fails, one of the followers will automatically become the ((*new leader*)).
+
+= Distribution
+
+(('tag:center'))Each broker acts as a leader for some of its partitions and a follower for others so load is ((*well balanced*)) within the cluster.
+
+= Producers
+
+(('tag:center'))Producers
+
+== properties
+  : hide-title
+    true
+
+= Producers
+
+(('tag:center'))Producers ((*publish record*)) to the topics of their choice.
+
+= Producers
+
+(('tag:center'))Producers can choose to send a ((*key*)) along with the record.
+
+= Producers
+
+(('tag:center'))Kafka guarantees that record with the ((*same key*)) will always go to the ((*same partition*)).
+
+= Producers
+
+(('tag:center'))If key is not specified then record is assigned into partition ((*randomly*)).
+
+= Consumers
+
+(('tag:center'))Consumers
+
+== properties
+  : hide-title
+    true
+
+= Consumers
+
+(('tag:center'))Consumers ((*read records*)) from a topic.
+
+= Consumers
+
+(('tag:center'))Consumers label themselves with a ((*consumer group*)).
+
+= Consumers
+
+(('tag:center'))Each record published to a topic is delivered to ((*one consumer instance*)) within each subscribing consumer group.
+
+= Consumers
+
+  # image
+  # src = images/consumer_groups.png
+  # keep_ratio = true
+  # width = 640
+
+= Consumers
+
+(('tag:center'))If all the consumer instances have the ((*same*)) consumer group,\n\n
+(('tag:center'))then the records will effectively be ((*load balanced*)) over the consumer instances.
+
+= Consumers
+
+(('tag:center'))If all the consumer instances have ((*different*)) consumer groups,\n\n
+(('tag:center'))then each record will be ((*broadcast*)) to all the consumer processes.
+
+= Consumers
+
+(('tag:center'))Kafka allows multiple consumers to read from the partition at the ((*same time*)).
+
+= Consumers
+
+(('tag:center'))Each consumers can read in an ((*independent position*)).
+
+= Consumers
+
+  # image
+  # src = images/multiple_consumers.png
+  # keep_ratio = true
+  # width = 640
+
+= Consumers
+
+(('tag:center'))Kafka also guarantees ((*order*)) over records ((*within a partition*)).\n\n
+(('sub:But not between different partitions in a topic.'))
+
+= Consumers
+
+(('tag:center'))But, if you require a total order over records this can be achieved with a topic that only has ((*one partition*)).\n\n
+(('sub:Though this will mean only one consumer process per consumer group.'))
+
+= Consumers
+
+(('tag:center'))After reading a record, consumers can ((*commit*)) the read offset.
+
+= Consumers
+
+(('tag:center'))Consumers can choose ((*when*)) to commit read offsets.
+
+= Consumers
+
+* At most once
+# Offsets are committed as soon as the message is received. If the processing goes wrong, the message will be lost.
+
+* At least once
+# Offsets are committed after the message is processed. If the processing goes wrong, the message will be read again. This can result in duplicate processing of messages. Make sure your processing is idempotent.
+
+* Exactly once
+# Very difficult to achieve / needs strong engineering.
+
+= Kafka Retains
+
+(('tag:center'))Kafka Retains
+
+== properties
+  : hide-title
+    true
+
+= Kafka Retains
+
+(('tag:center'))Kafka cluster retains all published records—whether or not they have been consumed—using a ((*configurable retention*)) period.
+
+= Kafka Retains
+
+(('tag:center'))Kafka also retains ((*read offset*)) of a particular partition on a per-consumer basis.
+
+= Kafka Retains
+
+(('tag:center'))The read offset is controlled by the ((*consumer*)).
+
+= Kafka Retains
+
+(('tag:center'))It means that consumer can advance its offset ((*linearly*)), or read in ((*any order*)) that they like.
+
+= Kafka Retains
+
+(('tag:center'))The offsets commit live in a Kafka topic named: ((*____consumer__offsets*))
+
+= Guarantees
+
+(('tag:center'))Guarantees
+
+== properties
+  : hide-title
+    true
+
+= Guarantees
+
+(('tag:center'))Kafka has several guarantees that can be used as an ((*assumptions*)) when designing our applications.
+
+= Guarantees
+
+(('tag:center'))Messages are appended to a topic-partition in the ((*order they are sent*)).
+
+= Guarantees
+
+(('tag:center'))Consumers read messages in the ((*order stored*)) in a ((*topic-partition*)).
+
+= Guarantees
+
+(('tag:center'))With a replication factor of N, producers and consumers can ((*tolerate*)) up to N-1 brokers being down.
+
+= Guarantees
+
+(('tag:center'))As long as the number of partitions remains ((*constant*)) for a topic (no new partitions),\n\n
+(('tag:center'))the same key will ((*always go to the same partition*)).
+
+= Thanks
+
+(('tag:center'))Thanks!
+
+== properties
+  : hide-title
+    true
