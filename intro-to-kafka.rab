@@ -233,6 +233,20 @@ Why partitions?
 
 (('tag:center'))If key is not specified then record is assigned into partition ((*randomly*)).
 
+= Producers
+
+(('tag:center'))Producers can choose to wait for ((*acknowledgement*)) of data writes.
+
+= Producers
+
+(('tag:center'))It is called ((*Acks*)) and it can be configured.
+
+= Producers
+
+* Acks=0, producer ((*won't wait*)) for ack
+* Acks=1, producer will only wait for ((*leader*)) ack
+* Acks=all, producer will wait for ((*leader + replicas*)) ack
+
 = Consumers
 
 (('tag:center'))Consumers
